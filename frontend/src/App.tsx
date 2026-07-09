@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
-import LearningSession from './components/LearningSession';
-import ReviewSession from './components/ReviewSession';
+import Dashboard from './components/Dashboard.tsx';
+import LearningSession from './components/LearningSession.tsx';
+import ReviewSession from './components/ReviewSession.tsx';
 
 function App() {
   return (
