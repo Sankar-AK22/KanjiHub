@@ -4,9 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { N5_LESSONS } from '../data/n5';
 import { getAllUserProgress, type KanjiProgress } from '../services/firestoreService';
 import QuizEngine from './QuizEngine';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function ReviewSession() {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const allKanji = useMemo(() => N5_LESSONS.flatMap(l => l.kanji), []);
 
   const [progress, setProgress] = useState<Record<string, KanjiProgress>>({});
@@ -15,9 +17,11 @@ export default function ReviewSession() {
   const [browseIndex, setBrowseIndex] = useState(0);
 
   useEffect(() => {
+    if (!currentUser) return;
+    
     const load = async () => {
       try {
-        const p = await getAllUserProgress();
+        const p = await getAllUserProgress(currentUser.uid);
         setProgress(p);
       } catch (err) {
         console.error('Failed to load progress:', err);
@@ -26,7 +30,7 @@ export default function ReviewSession() {
       }
     };
     load();
-  }, []);
+  }, [currentUser]);
 
   // Only show kanji that have been learned
   const completedKanji = useMemo(() => {

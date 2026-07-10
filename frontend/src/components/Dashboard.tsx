@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState, useMemo } from 'react';
 import { N5_LESSONS } from '../data/n5';
 import { getUserStats, getAllUserProgress, type KanjiProgress } from '../services/firestoreService';
+import { useAuth } from '../contexts/AuthContext';
 
 const ANIME_CHARACTERS = [
   { src: '/anime/ninja.png', name: 'Ninja Sensei', role: 'Learning Guide' },
@@ -11,6 +12,7 @@ const ANIME_CHARACTERS = [
 ];
 
 export default function Dashboard() {
+  const { currentUser } = useAuth();
   const [stats, setStats] = useState({
     totalLearned: 0,
     totalTested: 0,
@@ -24,9 +26,14 @@ export default function Dashboard() {
   const totalKanji = useMemo(() => N5_LESSONS.flatMap(l => l.kanji).length, []);
 
   useEffect(() => {
+    if (!currentUser) return;
+    
     const loadData = async () => {
       try {
-        const [s, p] = await Promise.all([getUserStats(), getAllUserProgress()]);
+        const [s, p] = await Promise.all([
+          getUserStats(currentUser.uid), 
+          getAllUserProgress(currentUser.uid)
+        ]);
         setStats(s);
         setProgress(p);
       } catch (err) {
@@ -36,7 +43,7 @@ export default function Dashboard() {
       }
     };
     loadData();
-  }, []);
+  }, [currentUser]);
 
   const progressPercent = totalKanji > 0 ? Math.round((stats.totalLearned / totalKanji) * 100) : 0;
 

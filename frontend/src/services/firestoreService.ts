@@ -12,8 +12,6 @@ import {
 import { db } from "../firebase";
 import { N5_LESSONS } from "../data/n5";
 
-const DEFAULT_USER_ID = "default_user";
-
 export interface KanjiProgress {
   learned: boolean;
   tested: boolean;
@@ -27,57 +25,70 @@ export interface KanjiProgress {
 }
 
 // Seed all 125 N5 kanji into Firestore
-export async function seedAllN5Kanji(): Promise<void> {
-  const kanjiCollRef = collection(db, "kanji");
-  const snapshot = await getDocs(kanjiCollRef);
+export async function seedAllN5Kanji(userId: string): Promise<void> {
+  try {
+    const kanjiCollRef = collection(db, "kanji");
+    const snapshot = await getDocs(kanjiCollRef);
 
-  if (snapshot.size > 0) {
-    console.log("Kanji already seeded in Firestore.");
-    return;
-  }
-
-  console.log("Seeding 125 N5 kanji into Firestore...");
-  const batch = writeBatch(db);
-
-  for (const lesson of N5_LESSONS) {
-    for (const kanji of lesson.kanji) {
-      const docRef = doc(db, "kanji", kanji.char);
-      batch.set(docRef, {
-        character: kanji.char,
-        meaning: kanji.meaning,
-        onReading: kanji.on,
-        kunReading: kanji.kun,
-        lessonId: lesson.id,
-        lessonTitle: lesson.title,
-        sentences: kanji.sentences,
-      });
+    if (snapshot.size > 0) {
+      console.log("Kanji already seeded in Firestore.");
+      return;
     }
-  }
 
-  await batch.commit();
-  console.log("Seeding complete!");
+    console.log("Seeding 125 N5 kanji into Firestore...");
+    const batch = writeBatch(db);
+
+    for (const lesson of N5_LESSONS) {
+      for (const kanji of lesson.kanji) {
+        const docRef = doc(db, "kanji", kanji.char);
+        batch.set(docRef, {
+          character: kanji.char,
+          meaning: kanji.meaning,
+          onReading: kanji.on,
+          kunReading: kanji.kun,
+          lessonId: lesson.id,
+          lessonTitle: lesson.title,
+          sentences: kanji.sentences,
+        });
+      }
+    }
+
+    await batch.commit();
+    console.log("Seeding complete!");
+  } catch (error) {
+    console.warn("Could not seed kanji (this is normal if Firebase rules are strict).", error);
+  }
 }
 
 // Get all progress for a user
 export async function getAllUserProgress(
-  userId: string = DEFAULT_USER_ID
+  userId: string
 ): Promise<Record<string, KanjiProgress>> {
-  const progressRef = collection(db, "userProgress", userId, "kanjiProgress");
-  const snapshot = await getDocs(progressRef);
-  const progress: Record<string, KanjiProgress> = {};
+  if (!userId) return {};
+  
+  try {
+    const progressRef = collection(db, "userProgress", userId, "kanjiProgress");
+    const snapshot = await getDocs(progressRef);
+    const progress: Record<string, KanjiProgress> = {};
 
-  snapshot.forEach((docSnap) => {
-    progress[docSnap.id] = docSnap.data() as KanjiProgress;
-  });
+    snapshot.forEach((docSnap) => {
+      progress[docSnap.id] = docSnap.data() as KanjiProgress;
+    });
 
-  return progress;
+    return progress;
+  } catch (error) {
+    console.warn("Could not load user progress", error);
+    return {};
+  }
 }
 
 // Mark a kanji as learned
 export async function markKanjiLearned(
   kanjiChar: string,
-  userId: string = DEFAULT_USER_ID
+  userId: string
 ): Promise<void> {
+  if (!userId) return;
+  
   const progressRef = doc(
     db,
     "userProgress",
@@ -115,8 +126,10 @@ export async function markKanjiLearned(
 export async function submitTestResult(
   kanjiChar: string,
   isCorrect: boolean,
-  userId: string = DEFAULT_USER_ID
+  userId: string
 ): Promise<void> {
+  if (!userId) return;
+  
   const progressRef = doc(
     db,
     "userProgress",
@@ -174,23 +187,30 @@ export async function submitTestResult(
 
 // Get kanji due for review (SRS-based)
 export async function getReviewQueue(
-  userId: string = DEFAULT_USER_ID
+  userId: string
 ): Promise<string[]> {
-  const progressRef = collection(db, "userProgress", userId, "kanjiProgress");
-  const now = Timestamp.now();
-  const q = query(
-    progressRef,
-    where("learned", "==", true),
-    where("nextReviewDate", "<=", now)
-  );
+  if (!userId) return [];
+  
+  try {
+    const progressRef = collection(db, "userProgress", userId, "kanjiProgress");
+    const now = Timestamp.now();
+    const q = query(
+      progressRef,
+      where("learned", "==", true),
+      where("nextReviewDate", "<=", now)
+    );
 
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((d) => d.id);
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((d) => d.id);
+  } catch (error) {
+    console.warn("Could not load review queue", error);
+    return [];
+  }
 }
 
 // Get stats summary
 export async function getUserStats(
-  userId: string = DEFAULT_USER_ID
+  userId: string
 ): Promise<{
   totalLearned: number;
   totalTested: number;

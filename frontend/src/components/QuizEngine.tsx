@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { generateQuestions, type QuizQuestion } from '../utils/quizGenerator';
 import { useSound } from '../hooks/useSound';
 import { submitTestResult } from '../services/firestoreService';
+import { useAuth } from '../contexts/AuthContext';
 
 interface QuizEngineProps {
   kanjiList: any[];
@@ -22,6 +23,7 @@ const WRONG_REACTIONS = [
 ];
 
 export default function QuizEngine({ kanjiList, allKanji, onComplete, isTestMode }: QuizEngineProps) {
+  const { currentUser } = useAuth();
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -69,16 +71,16 @@ export default function QuizEngine({ kanjiList, allKanji, onComplete, isTestMode
     }
 
     // Save to Firestore if test mode
-    if (isTestMode && currentKanjiChar) {
+    if (isTestMode && currentKanjiChar && currentUser) {
       try {
-        await submitTestResult(currentKanjiChar, isCorrect);
+        await submitTestResult(currentKanjiChar, isCorrect, currentUser.uid);
       } catch (err) {
         console.error('Failed to submit test result:', err);
       }
     }
 
     setTimeout(() => setAnimClass(''), 600);
-  }, [selected, current, playCorrect, playWrong, isTestMode, currentKanjiChar]);
+  }, [selected, current, playCorrect, playWrong, isTestMode, currentKanjiChar, currentUser]);
 
   const handleNext = useCallback(() => {
     setSelected(null);

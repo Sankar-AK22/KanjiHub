@@ -4,10 +4,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { N5_LESSONS } from '../data/n5';
 import QuizEngine from './QuizEngine';
 import { markKanjiLearned } from '../services/firestoreService';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function LearningSession() {
   const { lessonId } = useParams();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const lesson = N5_LESSONS.find(l => l.id === Number(lessonId)) || N5_LESSONS[0];
 
   const allKanji = useMemo(() => N5_LESSONS.flatMap(l => l.kanji), []);
@@ -25,10 +27,12 @@ export default function LearningSession() {
 
   const handleNext = useCallback(async () => {
     // Mark this kanji as learned in Firebase
-    try {
-      await markKanjiLearned(current.char);
-    } catch (err) {
-      console.error('Failed to mark kanji learned:', err);
+    if (currentUser) {
+      try {
+        await markKanjiLearned(current.char, currentUser.uid);
+      } catch (err) {
+        console.error('Failed to mark kanji learned:', err);
+      }
     }
 
     setFlipped(false);
@@ -38,7 +42,7 @@ export default function LearningSession() {
     } else if (currentIndex < lesson.kanji.length - 1) {
       setCurrentIndex(prev => prev + 1);
     }
-  }, [current.char, shouldQuiz, currentIndex, lesson.kanji.length]);
+  }, [current.char, shouldQuiz, currentIndex, lesson.kanji.length, currentUser]);
 
   const handleQuizComplete = useCallback(() => {
     if (isEndOfLesson) {

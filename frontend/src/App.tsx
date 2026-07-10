@@ -2,12 +2,15 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } f
 import { Suspense, lazy, useEffect } from 'react';
 import SakuraParticles from './components/SakuraParticles';
 import { seedAllN5Kanji } from './services/firestoreService';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // Lazy-loaded routes for code splitting
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const LearningSession = lazy(() => import('./components/LearningSession'));
 const TestSession = lazy(() => import('./components/TestSession'));
 const ReviewSession = lazy(() => import('./components/ReviewSession'));
+const Login = lazy(() => import('./components/Login'));
+const Profile = lazy(() => import('./components/Profile'));
 
 function LoadingSpinner() {
   return (
@@ -18,8 +21,19 @@ function LoadingSpinner() {
   );
 }
 
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { currentUser } = useAuth();
+  
+  if (!currentUser) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <>{children}</>;
+}
+
 function NavBar() {
   const location = useLocation();
+  const { currentUser } = useAuth();
   const isActive = (path: string) => location.pathname === path;
 
   return (
@@ -36,37 +50,62 @@ function NavBar() {
         </Link>
 
         <nav className="flex items-center gap-1">
-          <Link
-            to="/"
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
-              isActive('/') 
-                ? 'bg-crimson/20 text-crimson-light' 
-                : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
-            }`}
-          >
-            ホーム
-          </Link>
-          <Link
-            to="/review"
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
-              isActive('/review') 
-                ? 'bg-gold/20 text-gold' 
-                : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
-            }`}
-          >
-            復習
-          </Link>
+          {currentUser ? (
+            <>
+              <Link
+                to="/"
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                  isActive('/') 
+                    ? 'bg-crimson/20 text-crimson-light' 
+                    : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                }`}
+              >
+                ホーム
+              </Link>
+              <Link
+                to="/review"
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                  isActive('/review') 
+                    ? 'bg-gold/20 text-gold' 
+                    : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                }`}
+              >
+                復習
+              </Link>
+              <Link
+                to="/profile"
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                  isActive('/profile') 
+                    ? 'bg-bamboo/20 text-bamboo-light' 
+                    : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                }`}
+              >
+                プロファイル
+              </Link>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-crimson/20 text-crimson-light`}
+            >
+              Login
+            </Link>
+          )}
         </nav>
       </div>
     </header>
   );
 }
 
-function App() {
-  // Seed kanji to Firestore on first load
+function AppContent() {
+  const { currentUser } = useAuth();
+  
+  // Seed kanji to Firestore on first load after auth
   useEffect(() => {
-    seedAllN5Kanji().catch(console.error);
-  }, []);
+    if (currentUser) {
+      seedAllN5Kanji(currentUser.uid).catch(console.error);
+    }
+  }, [currentUser]);
 
   return (
     <Router>
@@ -77,10 +116,12 @@ function App() {
           <main className="max-w-6xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/learn/:lessonId" element={<LearningSession />} />
-                <Route path="/test/:lessonId" element={<TestSession />} />
-                <Route path="/review" element={<ReviewSession />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/learn/:lessonId" element={<ProtectedRoute><LearningSession /></ProtectedRoute>} />
+                <Route path="/test/:lessonId" element={<ProtectedRoute><TestSession /></ProtectedRoute>} />
+                <Route path="/review" element={<ProtectedRoute><ReviewSession /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Suspense>
@@ -88,6 +129,14 @@ function App() {
         </div>
       </div>
     </Router>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
