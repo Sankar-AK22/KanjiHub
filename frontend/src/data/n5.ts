@@ -147,5 +147,41 @@ export const N5_LESSONS = [
       { char: '赤', meaning: 'Red', on: 'セキ', kun: 'あか', sentences: [{ jp: '赤いリンゴ', en: 'Red apple' }, { jp: '赤ちゃん', en: 'Baby' }, { jp: '赤道', en: 'Equator' }] },
       { char: '青', meaning: 'Blue', on: 'セイ, ショウ', kun: 'あお', sentences: [{ jp: '青い空', en: 'Blue sky' }, { jp: '青年', en: 'Youth' }, { jp: '青信号', en: 'Green traffic light' }] },
     ]
+  },
+  {
+    id: 9,
+    title: "Daily Life & Communication",
+    kanji: [
+      { char: '間', meaning: 'Between, Interval', on: 'カン, ケン', kun: 'あいだ, ま', sentences: [{ jp: '時間がない。', en: 'There is no time.' }, { jp: '人間', en: 'Human being' }, { jp: '一週間', en: 'One week' }] },
+      { char: '電', meaning: 'Electricity', on: 'デン', kun: '', sentences: [{ jp: '電車に乗る。', en: 'Ride the train.' }, { jp: '電話する。', en: 'Make a phone call.' }, { jp: '電気', en: 'Electricity, light' }] },
+      { char: '店', meaning: 'Shop, Store', on: 'テン', kun: 'みせ', sentences: [{ jp: 'お店に入る。', en: 'Enter a shop.' }, { jp: '本屋さん', en: 'Bookstore' }, { jp: '店員', en: 'Shop clerk' }] },
+      { char: '道', meaning: 'Road, Way', on: 'ドウ', kun: 'みち', sentences: [{ jp: '道が分からない。', en: "I don't know the way." }, { jp: '北海道', en: 'Hokkaido' }, { jp: '道具', en: 'Tool' }] },
+      { char: '国', meaning: 'Country', on: 'コク', kun: 'くに', sentences: [{ jp: '外国に行く。', en: 'Go abroad.' }, { jp: '中国', en: 'China' }, { jp: '国語', en: 'National language' }] },
+      { char: '会', meaning: 'Meet, Gathering', on: 'カイ', kun: 'あ.う', sentences: [{ jp: '友達に会う。', en: 'Meet a friend.' }, { jp: '会社', en: 'Company' }, { jp: '会議', en: 'Meeting' }] },
+      { char: '社', meaning: 'Company, Shrine', on: 'シャ', kun: 'やしろ', sentences: [{ jp: '会社に行く。', en: 'Go to the company.' }, { jp: '神社', en: 'Shinto shrine' }, { jp: '社長', en: 'Company president' }] },
+      { char: '友', meaning: 'Friend', on: 'ユウ', kun: 'とも', sentences: [{ jp: '友達と遊ぶ。', en: 'Play with friends.' }, { jp: '親友', en: 'Best friend' }, { jp: '友人', en: 'Friend (formal)' }] },
+      { char: '毎', meaning: 'Every, Each', on: 'マイ', kun: 'ごと', sentences: [{ jp: '毎日勉強する。', en: 'Study every day.' }, { jp: '毎週', en: 'Every week' }, { jp: '毎月', en: 'Every month' }] },
+      { char: '週', meaning: 'Week', on: 'シュウ', kun: '', sentences: [{ jp: '今週は忙しい。', en: 'This week is busy.' }, { jp: '来週', en: 'Next week' }, { jp: '毎週', en: 'Every week' }] },
+      { char: '住', meaning: 'Live, Reside', on: 'ジュウ', kun: 'す.む', sentences: [{ jp: '東京に住む。', en: 'Live in Tokyo.' }, { jp: '住所', en: 'Address' }, { jp: '住民', en: 'Resident' }] },
+      { char: '作', meaning: 'Make, Create', on: 'サク, サ', kun: 'つく.る', sentences: [{ jp: '料理を作る。', en: 'Cook a meal.' }, { jp: '作文', en: 'Composition' }, { jp: '作品', en: 'Work (of art)' }] },
+    ]
+  },
+  {
+    id: 10,
+    title: "Actions & Movement",
+    kanji: [
+      { char: '持', meaning: 'Hold, Have', on: 'ジ', kun: 'も.つ', sentences: [{ jp: '荷物を持つ。', en: 'Hold the luggage.' }, { jp: '気持ち', en: 'Feeling' }, { jp: '持ち物', en: 'Belongings' }] },
+      { char: '使', meaning: 'Use', on: 'シ', kun: 'つか.う', sentences: [{ jp: '箸を使う。', en: 'Use chopsticks.' }, { jp: '大使館', en: 'Embassy' }, { jp: '使い方', en: 'How to use' }] },
+      { char: '待', meaning: 'Wait', on: 'タイ', kun: 'ま.つ', sentences: [{ jp: 'ここで待つ。', en: 'Wait here.' }, { jp: '期待する', en: 'To expect' }, { jp: '待合室', en: 'Waiting room' }] },
+      { char: '知', meaning: 'Know', on: 'チ', kun: 'し.る', sentences: [{ jp: '知りません。', en: "I don't know." }, { jp: '知識', en: 'Knowledge' }, { jp: '知人', en: 'Acquaintance' }] },
+      { char: '思', meaning: 'Think', on: 'シ', kun: 'おも.う', sentences: [{ jp: 'そう思う。', en: 'I think so.' }, { jp: '思い出', en: 'Memory' }, { jp: '不思議', en: 'Mysterious' }] },
+      { char: '起', meaning: 'Wake up, Rise', on: 'キ', kun: 'お.きる', sentences: [{ jp: '朝早く起きる。', en: 'Wake up early in the morning.' }, { jp: '起立', en: 'Stand up' }, { jp: '起こす', en: 'To wake someone' }] },
+      { char: '走', meaning: 'Run', on: 'ソウ', kun: 'はし.る', sentences: [{ jp: '速く走る。', en: 'Run fast.' }, { jp: '走者', en: 'Runner' }, { jp: '走行', en: 'Running (of a vehicle)' }] },
+      { char: '歩', meaning: 'Walk', on: 'ホ, ブ', kun: 'ある.く', sentences: [{ jp: '公園を歩く。', en: 'Walk in the park.' }, { jp: '歩道', en: 'Sidewalk' }, { jp: '散歩', en: 'Stroll, walk' }] },
+      { char: '開', meaning: 'Open', on: 'カイ', kun: 'あ.ける, ひら.く', sentences: [{ jp: 'ドアを開ける。', en: 'Open the door.' }, { jp: '開店', en: 'Opening a store' }, { jp: '公開', en: 'Public release' }] },
+      { char: '閉', meaning: 'Close, Shut', on: 'ヘイ', kun: 'し.める, と.じる', sentences: [{ jp: '窓を閉める。', en: 'Close the window.' }, { jp: '閉店', en: 'Store closing' }, { jp: '閉会', en: 'Closing (of a meeting)' }] },
+      { char: '着', meaning: 'Arrive, Wear', on: 'チャク', kun: 'き.る, つ.く', sentences: [{ jp: '服を着る。', en: 'Put on clothes.' }, { jp: '到着', en: 'Arrival' }, { jp: '着物', en: 'Kimono' }] },
+      { char: '病', meaning: 'Illness, Sick', on: 'ビョウ', kun: 'やまい, や.む', sentences: [{ jp: '病気になる。', en: 'Become ill.' }, { jp: '病院', en: 'Hospital' }, { jp: '病人', en: 'Sick person' }] },
+    ]
   }
 ];
