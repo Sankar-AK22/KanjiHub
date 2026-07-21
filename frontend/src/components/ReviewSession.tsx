@@ -77,7 +77,7 @@ export default function ReviewSession() {
     return (
       <div className="pt-4">
         <div className="text-center mb-6">
-          <span className="text-xs uppercase tracking-[0.3em] text-bamboo-light font-bold">復習クイズ</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-bamboo-light font-bold">Review Quiz</span>
           <h2 className="text-2xl font-bold font-jp text-gray-200 mt-1">Review Quiz</h2>
         </div>
         <QuizEngine
@@ -99,7 +99,7 @@ export default function ReviewSession() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <span className="text-xs uppercase tracking-[0.3em] text-bamboo-light font-bold">復習モード</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-bamboo-light font-bold">Review Mode</span>
           <h2 className="text-lg font-bold text-gray-200 font-jp">Review — {completedKanji.length} Kanji</h2>
         </div>
         <motion.button

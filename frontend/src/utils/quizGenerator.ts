@@ -6,6 +6,7 @@ export interface QuizQuestion {
   options: string[];
   answer: string;
   context?: string; // e.g. English translation for sentence
+  testKanjiChars: string[]; // kanji chars being tested (should NOT get furigana)
 }
 
 // Utility to shuffle an array
@@ -29,13 +30,17 @@ export const generateQuestions = (recentKanji: any[], allKanji: any[]): QuizQues
   const allChars = allKanji.map(k => k.char);
   const allMeanings = allKanji.map(k => k.meaning);
 
+  // Collect all kanji chars being tested in this session
+  const testKanjiChars = recentKanji.map(k => k.char);
+
   recentKanji.forEach(kanji => {
     // 1. Meaning to Kanji
     questions.push({
       type: 'meaning_to_kanji',
       question: `Which kanji means "${kanji.meaning}"?`,
       options: shuffle([kanji.char, ...getDistractors(allChars, kanji.char, 3)]),
-      answer: kanji.char
+      answer: kanji.char,
+      testKanjiChars
     });
 
     // 2. Kanji to Meaning
@@ -43,7 +48,8 @@ export const generateQuestions = (recentKanji: any[], allKanji: any[]): QuizQues
       type: 'kanji_to_meaning',
       question: `What is the meaning of ${kanji.char}?`,
       options: shuffle([kanji.meaning, ...getDistractors(allMeanings, kanji.meaning, 3)]),
-      answer: kanji.meaning
+      answer: kanji.meaning,
+      testKanjiChars
     });
 
     // 3. Reading to Kanji
@@ -53,7 +59,8 @@ export const generateQuestions = (recentKanji: any[], allKanji: any[]): QuizQues
         type: 'reading_to_kanji',
         question: `Which kanji has the reading "${reading}"?`,
         options: shuffle([kanji.char, ...getDistractors(allChars, kanji.char, 3)]),
-        answer: kanji.char
+        answer: kanji.char,
+        testKanjiChars
       });
     }
 
@@ -69,7 +76,8 @@ export const generateQuestions = (recentKanji: any[], allKanji: any[]): QuizQues
           question: `Fill in the blank: ${blankSentence}`,
           context: sentenceObj.en,
           options: shuffle([kanji.char, ...getDistractors(allChars, kanji.char, 3)]),
-          answer: kanji.char
+          answer: kanji.char,
+          testKanjiChars
         });
       }
     }
@@ -78,3 +86,4 @@ export const generateQuestions = (recentKanji: any[], allKanji: any[]): QuizQues
   // Limit to 5-10 questions per quiz to not overwhelm
   return shuffle(questions).slice(0, 8);
 };
+

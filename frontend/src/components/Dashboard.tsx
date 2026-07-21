@@ -123,7 +123,7 @@ export default function Dashboard() {
               className="w-28 h-28 object-contain mx-auto mb-4 anime-char"
               loading="lazy"
             />
-            <span className="text-xs uppercase tracking-[0.2em] text-crimson-light font-bold">学習</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-crimson-light font-bold">Learn</span>
             <h3 className="text-xl font-bold mt-1 mb-2 text-gray-100">Learning Session</h3>
             <p className="text-gray-400 text-sm mb-5">
               Study new kanji with readings, meanings & example sentences.
@@ -151,7 +151,7 @@ export default function Dashboard() {
               className="w-28 h-28 object-contain mx-auto mb-4 anime-char"
               loading="lazy"
             />
-            <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">試験</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">Test</span>
             <h3 className="text-xl font-bold mt-1 mb-2 text-gray-100">Test Session</h3>
             <p className="text-gray-400 text-sm mb-5">
               Challenge yourself! Sounds play for right & wrong answers.
@@ -179,7 +179,7 @@ export default function Dashboard() {
               className="w-28 h-28 object-contain mx-auto mb-4 anime-char"
               loading="lazy"
             />
-            <span className="text-xs uppercase tracking-[0.2em] text-bamboo-light font-bold">復習</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-bamboo-light font-bold">Review</span>
             <h3 className="text-xl font-bold mt-1 mb-2 text-gray-100">Review Session</h3>
             <p className="text-gray-400 text-sm mb-5">
               Revisit completed kanji with spaced repetition.

@@ -25,7 +25,7 @@ export interface KanjiProgress {
 }
 
 // Seed all 125 N5 kanji into Firestore
-export async function seedAllN5Kanji(userId: string): Promise<void> {
+export async function seedAllN5Kanji(): Promise<void> {
   try {
     const kanjiCollRef = collection(db, "kanji");
     const snapshot = await getDocs(kanjiCollRef);

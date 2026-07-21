@@ -242,3 +242,22 @@ body {
 .btn-gold:active {
   transform: scale(0.97);
 }
+
+/* Furigana (ruby) styling for quiz/test sessions */
+.furigana-ruby {
+  ruby-align: center;
+}
+
+.furigana-ruby rt {
+  font-size: 0.5em;
+  color: rgba(241, 196, 15, 0.7);
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  padding: 0 0.1em;
+}
+
+.furigana-ruby rp {
+  display: none;
+}
+

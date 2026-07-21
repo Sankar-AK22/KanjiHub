@@ -18,7 +18,7 @@ export default function TestSession() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-gold font-bold">試験モード</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-gold font-bold">Test Mode</span>
           <h2 className="text-3xl font-bold font-jp text-gray-200 mt-1 mb-2">
             {lesson.title}
           </h2>

@@ -60,7 +60,7 @@ function NavBar() {
                     : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
                 }`}
               >
-                ホーム
+                Home
               </Link>
               <Link
                 to="/review"
@@ -70,7 +70,7 @@ function NavBar() {
                     : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
                 }`}
               >
-                復習
+                Review
               </Link>
               <Link
                 to="/profile"
@@ -80,7 +80,7 @@ function NavBar() {
                     : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
                 }`}
               >
-                プロファイル
+                Profile
               </Link>
             </>
           ) : (
@@ -103,7 +103,7 @@ function AppContent() {
   // Seed kanji to Firestore on first load after auth
   useEffect(() => {
     if (currentUser) {
-      seedAllN5Kanji(currentUser.uid).catch(console.error);
+      seedAllN5Kanji().catch(console.error);
     }
   }, [currentUser]);
 

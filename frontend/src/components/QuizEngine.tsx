@@ -4,6 +4,7 @@ import { generateQuestions, type QuizQuestion } from '../utils/quizGenerator';
 import { useSound } from '../hooks/useSound';
 import { submitTestResult } from '../services/firestoreService';
 import { useAuth } from '../contexts/AuthContext';
+import { renderWithFurigana } from '../utils/furigana';
 
 interface QuizEngineProps {
   kanjiList: any[];
@@ -198,7 +199,7 @@ export default function QuizEngine({ kanjiList, allKanji, onComplete, isTestMode
             )}
 
             <h2 className="text-2xl font-bold text-gray-100 font-jp leading-tight">
-              {current.question}
+              {renderWithFurigana(current.question, new Set(current.testKanjiChars))}
             </h2>
             {current.context && (
               <p className="mt-2 text-gray-400 text-sm">"{current.context}"</p>

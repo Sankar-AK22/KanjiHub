@@ -74,7 +74,7 @@ export default function Profile() {
           
           <div className="relative z-10 text-center md:text-left flex-1">
             <span className="text-xs font-bold tracking-[0.2em] uppercase text-gold mb-1 block">
-              学生 (Student)
+              Student
             </span>
             <h2 className="text-3xl font-bold text-gray-100 mb-2">{currentUser.displayName || 'Kanji Student'}</h2>
             <p className="text-gray-300 text-sm">{currentUser.email}</p>
@@ -94,7 +94,7 @@ export default function Profile() {
 
         <div className="p-8">
           <h3 className="text-xl font-bold font-jp mb-6 text-gray-200 border-b border-white/10 pb-4">
-            学習状況 (Learning Status)
+            Learning Status
           </h3>
           
           {loading ? (

@@ -5,7 +5,7 @@ import { N5_LESSONS } from '../data/n5';
 import QuizEngine from './QuizEngine';
 import { markKanjiLearned } from '../services/firestoreService';
 import { useAuth } from '../contexts/AuthContext';
-
+import { renderWithFurigana } from '../utils/furigana';
 export default function LearningSession() {
   const { lessonId } = useParams();
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ export default function LearningSession() {
       {/* Header */}
       <div className="mb-6 flex justify-between items-center">
         <div>
-          <span className="text-xs uppercase tracking-[0.3em] text-crimson-light font-bold">学習モード</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-crimson-light font-bold">Learning Mode</span>
           <h2 className="text-lg font-bold text-gray-200 font-jp">{lesson.title}</h2>
         </div>
         <div className="text-sm font-semibold text-gray-400">
@@ -152,7 +152,7 @@ export default function LearningSession() {
                     transition={{ delay: idx * 0.1 }}
                     className="bg-white/5 p-4 rounded-xl border border-white/5 hover:bg-white/8 transition-all"
                   >
-                    <p className="text-lg font-medium text-gray-200 font-jp mb-1">{sentence.jp}</p>
+                    <p className="text-lg font-medium text-gray-200 font-jp mb-1">{renderWithFurigana(sentence.jp, new Set())}</p>
                     <p className="text-sm text-gray-400">{sentence.en}</p>
                   </motion.div>
                 ))}
